@@ -55,7 +55,7 @@ if(not os.path.isdir('./genImages')):
 # SETTINGS________________________________________________________
 
 n_images = 10
-max_circles=12
+max_circles=10
 min_r=3
 max_r=20
 min_int=-500
@@ -70,11 +70,15 @@ reg_list = []
 for i in range(n_images):
     n_circles = int(np.random.rand()*max_circles)
     bb_displ = int(np.random.rand()*(max_displ - 1) + 1)
-    plt.figure()
+    fig = plt.figure(frameon=False)
+    fig.set_size_inches(10,10)
+    ax = plt.Axes(fig, [0., 0., 1., 1.])
+    ax.set_axis_off()
+    fig.add_axes(ax)
     image, bounding_boxes = genImage(n_circles, min_r, max_r,
     min_int, max_int, img_size, pad, bb_displ)
-    plt.imshow(image[:,:,0], cmap='gray', vmin=-1000, vmax=1000)
-    plt.savefig('genImages/id_'+str(i)+'.pdf')
+    ax.imshow(image[:,:,0], cmap='gray', vmin=-1000, vmax=1000, aspect='auto')
+    plt.savefig('genImages/id_'+str(i)+'.jpg', format='jpg')
     plt.close()
 
     dict1 = {}
